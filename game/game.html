@@ -6,6 +6,49 @@
     <title>Unity Web Player | Goofiee</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
+    
+    <style>
+      /* Torch effect styles */
+      #torch-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 9999;
+        background: radial-gradient(
+          circle 150px at var(--mouse-x, 50%) var(--mouse-y, 50%),
+          transparent 0%,
+          rgba(0, 0, 0, 0.8) 70%,
+          rgba(0, 0, 0, 0.95) 100%
+        );
+        transition: background 0.1s ease;
+      }
+      
+      /* Hide torch effect on mobile devices */
+      @media (max-width: 768px) {
+        #torch-overlay {
+          display: none;
+        }
+      }
+      
+      /* Optional: Add a subtle glow effect */
+      #torch-overlay::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+          circle 80px at var(--mouse-x, 50%) var(--mouse-y, 50%),
+          rgba(255, 255, 255, 0.1) 0%,
+          transparent 50%
+        );
+        pointer-events: none;
+      }
+    </style>
   </head>
   <body>
     <div id="unity-container" class="unity-desktop">
@@ -23,6 +66,10 @@
         <div id="unity-build-title">Goofiee</div>
       </div>
     </div>
+    
+    <!-- Torch effect overlay -->
+    <div id="torch-overlay"></div>
+    
     <script>
       var canvas = document.querySelector("#unity-canvas");
 
@@ -121,6 +168,36 @@
             };
 
       document.body.appendChild(script);
+
+      // Torch effect functionality
+      const torchOverlay = document.getElementById('torch-overlay');
+      let isTorchEnabled = true;
+
+      // Update torch position based on mouse movement
+      function updateTorchPosition(e) {
+        if (!isTorchEnabled) return;
+        
+        const x = e.clientX;
+        const y = e.clientY;
+        
+        torchOverlay.style.setProperty('--mouse-x', x + 'px');
+        torchOverlay.style.setProperty('--mouse-y', y + 'px');
+      }
+
+      // Add mouse move listener
+      document.addEventListener('mousemove', updateTorchPosition);
+
+      // Toggle torch effect with 'T' key
+      document.addEventListener('keydown', function(e) {
+        if (e.key.toLowerCase() === 't') {
+          isTorchEnabled = !isTorchEnabled;
+          torchOverlay.style.display = isTorchEnabled ? 'block' : 'none';
+        }
+      });
+
+      // Initialize torch position at center
+      torchOverlay.style.setProperty('--mouse-x', '50%');
+      torchOverlay.style.setProperty('--mouse-y', '50%');
 
     </script>
   </body>

@@ -11,12 +11,47 @@
 <body>
   <div class="container">
     <img src="favicon.png" alt="Goofiee Logo" class="logo" />
-    <h1>Something Awesome is Coming</h1>
-    <p>We're building a world of playful STEM ecosystem.<br />Stay tuned for Goofiee!</p>
+    <h1>Something Awesome is Coming now</h1>
+    <p>We're building a world of playful STEM learning.<br />Stay tuned for Goofiee!</p>
     <div class="button-container">
       <a href="mailto:hello@goofiee.com" class="email-button">Contact Us</a>
-      <a href="https://sameer856.github.io/tests/" class="play-button">Play Now(glimpse)</a>
+      <a href="https://goofiee.in" class="play-button">Play Now</a>
     </div>
   </div>
+  
+  <!-- Torch effect overlay -->
+  <div id="torch-overlay"></div>
+  
+  <script>
+    // Torch effect functionality
+    const torchOverlay = document.getElementById('torch-overlay');
+    let isTorchEnabled = true;
+
+    // Update torch position based on mouse movement
+    function updateTorchPosition(e) {
+      if (!isTorchEnabled) return;
+      
+      const x = e.clientX;
+      const y = e.clientY;
+      
+      torchOverlay.style.setProperty('--mouse-x', x + 'px');
+      torchOverlay.style.setProperty('--mouse-y', y + 'px');
+    }
+
+    // Add mouse move listener
+    document.addEventListener('mousemove', updateTorchPosition);
+
+    // Toggle torch effect with 'T' key
+    document.addEventListener('keydown', function(e) {
+      if (e.key.toLowerCase() === 't') {
+        isTorchEnabled = !isTorchEnabled;
+        torchOverlay.style.display = isTorchEnabled ? 'block' : 'none';
+      }
+    });
+
+    // Initialize torch position at center
+    torchOverlay.style.setProperty('--mouse-x', '50%');
+    torchOverlay.style.setProperty('--mouse-y', '50%');
+  </script>
 </body>
 </html>

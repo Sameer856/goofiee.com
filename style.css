@@ -18,8 +18,9 @@ body {
   }
   
   .logo {
-    width: 120px;
-    margin-bottom: 20px;
+    width: 300px;
+    height: auto;
+    margin-bottom: 0px;
   }
   
   h1 {
@@ -30,6 +31,14 @@ body {
   p {
     font-size: 1.2rem;
     margin-bottom: 30px;
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
   }
   
   .email-button {
@@ -44,6 +53,24 @@ body {
   }
   
   .email-button:hover {
-    background-color: #f0f0f0;
+    background-color: #6bad6a;
+    color: #fff;
+    transform: translateY(-2px);
   }
   
+  .play-button {
+    display: inline-block;
+    padding: 12px 30px;
+    background-color: #ff6b35;
+    color: #fff;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+    border: 2px solid #fff;
+  }
+  
+  .play-button:hover {
+    background-color: #e55a2b;
+    transform: translateY(-2px);
+  }

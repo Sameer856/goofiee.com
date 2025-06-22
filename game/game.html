@@ -20,7 +20,7 @@
     <link rel="apple-touch-icon" href="../favicon.png">
   </head>
   <body style="text-align: center; padding: 0; border: 0; margin: 0; overflow: hidden; background: #000;">
-    <canvas id="unity-canvas" width=1366 height=768 tabindex="-1" style="width: 100vw; height: 100vh; background: #FFFFFF; display: block;"></canvas>
+    <canvas id="unity-canvas" width=1920 height=1080 tabindex="-1" style="width: 100vw; height: 100vh; background: #FFFFFF; display: block;"></canvas>
     <script src="Build/V3.loader.js"></script>
     <script>
       // Lock screen orientation to landscape
@@ -57,22 +57,70 @@
       document.addEventListener('click', handleFirstInteraction);
       document.addEventListener('touchstart', handleFirstInteraction);
       
-      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-        // Mobile device style: fill the whole browser client area with the game canvas:
+      // Check if device is mobile
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      const canvas = document.querySelector("#unity-canvas");
+      
+      if (isMobile) {
+        // Mobile device: optimize for full screen landscape
         var meta = document.createElement('meta');
         meta.name = 'viewport';
         meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
         document.getElementsByTagName('head')[0].appendChild(meta);
 
-        var canvas = document.querySelector("#unity-canvas");
+        // Set canvas to fill entire screen
         canvas.style.width = "100vw";
         canvas.style.height = "100vh";
         canvas.style.position = "fixed";
         canvas.style.top = "0";
         canvas.style.left = "0";
+        canvas.style.objectFit = "cover";
 
         document.body.style.textAlign = "left";
         document.body.style.overflow = "hidden";
+        
+        // Force landscape orientation
+        if (window.orientation !== 90 && window.orientation !== -90) {
+          // Show landscape message if not in landscape
+          const landscapeMessage = document.createElement('div');
+          landscapeMessage.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            font-family: Arial, sans-serif;
+            font-size: 18px;
+            text-align: center;
+            padding: 20px;
+          `;
+          landscapeMessage.innerHTML = `
+            <div>
+              <h2>🔄 Please Rotate Your Device</h2>
+              <p>This game works best in landscape mode</p>
+              <p>Please rotate your device to continue</p>
+            </div>
+          `;
+          document.body.appendChild(landscapeMessage);
+          
+          // Remove message when device is rotated to landscape
+          window.addEventListener('orientationchange', function() {
+            if (window.orientation === 90 || window.orientation === -90) {
+              landscapeMessage.remove();
+            }
+          });
+        }
+      } else {
+        // Desktop: maintain aspect ratio but fit screen
+        canvas.style.width = "100vw";
+        canvas.style.height = "100vh";
+        canvas.style.objectFit = "contain";
       }
 
       createUnityInstance(document.querySelector("#unity-canvas"), {
@@ -84,11 +132,21 @@
         companyName: "RoboVision",
         productName: "Goofiee",
         productVersion: "1.0",
-        // matchWebGLToCanvasSize: false, // Uncomment this to separately control WebGL canvas render size and DOM element size.
-        // devicePixelRatio: 1, // Uncomment this to override low DPI rendering on high DPI displays.
+        // Optimize for mobile performance
+        devicePixelRatio: isMobile ? 1 : window.devicePixelRatio || 1,
+        // Match WebGL canvas size to DOM size for better mobile performance
+        matchWebGLToCanvasSize: true,
       }).then((unityInstance) => {
+        // Handle Unity instance creation
+        console.log('Unity game loaded successfully');
+        
+        // Add fullscreen button functionality if needed
+        if (unityInstance.SetFullscreen) {
+          // You can add fullscreen toggle here if needed
+        }
       }).catch((message) => {
-        alert(message);
+        console.error('Unity loading failed:', message);
+        alert('Failed to load the game. Please refresh the page.');
       });
     </script>
   </body>

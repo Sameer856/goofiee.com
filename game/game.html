@@ -20,9 +20,29 @@
     <link rel="apple-touch-icon" href="../favicon.png">
   </head>
   <body style="text-align: center; padding: 0; border: 0; margin: 0; overflow: hidden; background: #000;">
+    <!-- Loading Screen -->
+    <div id="loading-screen" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #1a1a1a; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000;">
+      <div style="text-align: center; color: white; font-family: Arial, sans-serif;">
+        <img src="marmalady-loading-cat.gif" alt="Loading..." style="width: 200px; height: auto; display: block; margin: 0 auto;">
+        <p style="margin-top: 20px; font-size: 16px; opacity: 0.8;">Please wait while we prepare your adventure...</p>
+      </div>
+    </div>
+    
     <canvas id="unity-canvas" width=1920 height=1080 tabindex="-1" style="width: 100vw; height: 100vh; background: #FFFFFF; display: block;"></canvas>
     <script src="Build/V3.loader.js"></script>
     <script>
+      // Function to hide loading screen
+      function hideLoadingScreen() {
+        const loadingScreen = document.getElementById('loading-screen');
+        if (loadingScreen) {
+          loadingScreen.style.opacity = '0';
+          loadingScreen.style.transition = 'opacity 0.5s ease';
+          setTimeout(() => {
+            loadingScreen.style.display = 'none';
+          }, 500);
+        }
+      }
+      
       // Lock screen orientation to landscape
       if (screen.orientation && screen.orientation.lock) {
         screen.orientation.lock('landscape').catch(function(error) {
@@ -98,12 +118,17 @@
         // Handle Unity instance creation
         console.log('Unity game loaded successfully');
         
+        // Hide loading screen when game is ready
+        hideLoadingScreen();
+        
         // Add fullscreen button functionality if needed
         if (unityInstance.SetFullscreen) {
           // You can add fullscreen toggle here if needed
         }
       }).catch((message) => {
         console.error('Unity loading failed:', message);
+        // Hide loading screen even if there's an error
+        hideLoadingScreen();
         alert('Failed to load the game. Please refresh the page.');
       });
     </script>

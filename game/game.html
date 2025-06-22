@@ -62,62 +62,20 @@
       const canvas = document.querySelector("#unity-canvas");
       
       if (isMobile) {
-        // Mobile device: optimize for full screen landscape
+        // Mobile device: use Unity's default behavior
         var meta = document.createElement('meta');
         meta.name = 'viewport';
         meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
         document.getElementsByTagName('head')[0].appendChild(meta);
 
-        // Set canvas to fill entire screen
-        canvas.style.width = "100vw";
-        canvas.style.height = "100vh";
+        // Use Unity's default mobile canvas settings
+        canvas.style.width = "100%";
+        canvas.style.height = "100%";
         canvas.style.position = "fixed";
-        canvas.style.top = "0";
-        canvas.style.left = "0";
-        canvas.style.objectFit = "cover";
 
         document.body.style.textAlign = "left";
-        document.body.style.overflow = "hidden";
-        
-        // Force landscape orientation
-        if (window.orientation !== 90 && window.orientation !== -90) {
-          // Show landscape message if not in landscape
-          const landscapeMessage = document.createElement('div');
-          landscapeMessage.style.cssText = `
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: #000;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10000;
-            font-family: Arial, sans-serif;
-            font-size: 18px;
-            text-align: center;
-            padding: 20px;
-          `;
-          landscapeMessage.innerHTML = `
-            <div>
-              <h2>🔄 Please Rotate Your Device</h2>
-              <p>This game works best in landscape mode</p>
-              <p>Please rotate your device to continue</p>
-            </div>
-          `;
-          document.body.appendChild(landscapeMessage);
-          
-          // Remove message when device is rotated to landscape
-          window.addEventListener('orientationchange', function() {
-            if (window.orientation === 90 || window.orientation === -90) {
-              landscapeMessage.remove();
-            }
-          });
-        }
       } else {
-        // Desktop: maintain aspect ratio but fit screen
+        // Desktop: maintain our optimizations
         canvas.style.width = "100vw";
         canvas.style.height = "100vh";
         canvas.style.objectFit = "contain";
@@ -132,9 +90,9 @@
         companyName: "RoboVision",
         productName: "Goofiee",
         productVersion: "1.0",
-        // Optimize for mobile performance
-        devicePixelRatio: isMobile ? 1 : window.devicePixelRatio || 1,
-        // Match WebGL canvas size to DOM size for better mobile performance
+        // Use default settings for mobile, optimized settings for desktop
+        devicePixelRatio: isMobile ? undefined : window.devicePixelRatio || 1,
+        // Match WebGL canvas size to DOM size for better performance
         matchWebGLToCanvasSize: true,
       }).then((unityInstance) => {
         // Handle Unity instance creation

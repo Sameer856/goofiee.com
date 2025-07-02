@@ -3,8 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Goofiee for kids</title>
-
+    <title>Reena for kids</title>
     <link rel="icon" type="image/png" sizes="32x32" href="../favicon.png">
     <link rel="icon" type="image/png" sizes="16x16" href="../favicon.png">
     <link rel="shortcut icon" href="../favicon.png">
@@ -18,9 +17,8 @@
         <p style="margin-top: 20px; font-size: 16px; opacity: 0.8;">Please wait while we prepare your adventure...</p>
       </div>
     </div>
-    
-    <canvas id="unity-canvas" width=1366 height=720 tabindex="-1" style="width: 1366px; height: 720px; background: #FFFFFF"></canvas>
-    <script src="Build/gg.loader.js"></script>
+    <canvas id="unity-canvas" width=1366 height=786 tabindex="-1" style="width: 1366px; height: 786px; background: #FFFFFF"></canvas>
+    <script src="Build/Reena_V4.2.loader.js"></script>
     <script>
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
         // Mobile device style: fill the whole browser client area with the game canvas:
@@ -40,13 +38,13 @@
 
       createUnityInstance(document.querySelector("#unity-canvas"), {
         arguments: [],
-        dataUrl: "Build/gg.data",
-        frameworkUrl: "Build/gg.framework.js",
-        codeUrl: "Build/gg.wasm",
+        dataUrl: "Build/Reena_V4.2.data",
+        frameworkUrl: "Build/Reena_V4.2.framework.js",
+        codeUrl: "Build/Reena_V4.2.wasm",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "RoboVision",
-        productName: "Goofiee",
-        productVersion: "3.0",
+        productName: "Reena",
+        productVersion: "4.2",
         // matchWebGLToCanvasSize: false, // Uncomment this to separately control WebGL canvas render size and DOM element size.
         // devicePixelRatio: 1, // Uncomment this to override low DPI rendering on high DPI displays.
       }).then((unityInstance) => {

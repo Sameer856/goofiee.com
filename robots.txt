@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://robovision.in/sitemap.xml
+
+# Allow all pages to be crawled
+Allow: /cancellation-and-refund
+Allow: /terms-and-conditions
+Allow: /shipping
+Allow: /privacy
+Allow: /contact-us
+Allow: /game/
